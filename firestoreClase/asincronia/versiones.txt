@@ -1,0 +1,153 @@
+//CALLBACK: Una funcion que se ejecuta cada vez que algo ocurre , puede tener dos posibilidade, 1. no se ejecute, hubo algun error. 2. se ejecute todo se hizo sin nigun problema
+function addToArray(data, array, callback){
+    if(!array){
+        //primer parametro hay o no error, segundo parametro informacion con la qeu se va a trabajar
+        callback(new Error('No existe el array'), null)
+    } else {
+        array.push(data)
+        callback(null, array)
+    }
+
+}
+
+const array=[1, 2, 3]
+const addToArrayCB= function(err,data){
+    if (err){
+            return console.log(err.message)
+         }
+         console.log('Recibí', data)
+         
+}
+
+addToArray(4,array,addToArrayCB)
+
+// addToArray(4,array,function(err,data){
+//     if (err){
+//         return console.log(err.message)
+//     }
+//     console.log('Recibí', data)
+// })
+
+
+SEGUNDA VERSION
+
+//CALLBACK: Una funcion que se ejecuta cada vez que algo ocurre , puede tener dos posibilidade, 1. no se ejecute, hubo algun error. 2. se ejecute todo se hizo sin nigun problema
+function addToArray(data, array, callback){
+    if(!array){
+        //primer parametro hay o no error, segundo parametro informacion con la qeu se va a trabajar
+        callback(new Error('No existe el array'), null)
+    } else {
+        setTimeout(function(){
+            array.push(data)
+            callback(null, array) 
+        }, 3000)
+        
+    }
+
+}
+
+const array=[1, 2, 3]
+const addToArrayCB= function(err,data){
+    if (err){
+            return console.log(err.message)
+         }
+         console.log('Recibí', data)
+         
+}
+
+addToArray(4,array,addToArrayCB)
+
+//dos estrategias para cuando se demore la tarea
+
+TERCERA VERSION
+
+//PROMESA ES UN OBJETO, hacen que el código sea más limpio
+function addToArray(data, array){
+    const promise= new Promise(function (resolve, reject){
+        if(!array){
+            //primer parametro hay o no error, segundo parametro informacion con la qeu se va a trabajar
+            reject(new Error('No existe el array'), null)
+        } else {
+            setTimeout(function(){
+                array.push(data)
+                resolve(array) //el primer parametro
+            }, 3000)
+            
+        }
+        
+    })
+    return promise
+
+}
+
+const array=[1, 2, 3]
+
+
+addToArray(4,array).then(function(data){
+    console.log(data)
+})
+.catch(function(err){
+    console.log(err.message)
+})
+//dos estrategias para cuando se demore la tarea
+//.then, cuando se cumpla o no la promesa entonces se imprime la rta
+
+CUARTA VERSION
+
+//status code
+//PALABRAS CLAVE: ASYNC el metodo que estoy utilizando se va a utilizar de maera asincrona
+//AWAIT esto se va a demorar un poquito, espere mientras se termina la tarea
+
+
+function addToArray(data, array){
+    const promise= new Promise(function (resolve, reject){
+        if(!array){
+            //primer parametro hay o no error, segundo parametro informacion con la qeu se va a trabajar
+            reject(new Error('No existe el array'), null)
+        } else {
+            setTimeout(function(){
+                array.push(data)
+                resolve(array) //el primer parametro
+            }, 3000)
+            
+        }
+        
+    })
+    return promise
+
+}
+
+const array=[1, 2, 3]
+
+//async await necesitamos una funcion que me envuela el codigo
+async function processData(data, array){
+    //para usar el a wait debe de estar dentro de una funcion asincrona
+    const res= await addToArray(data, array)
+    //suspender de alguna manera le bloque de codigoi pra que se quede ahí tabajando
+    console.log(res)
+}
+
+processData(8, array)
+
+
+//status code
+//PALABRAS CLAVE: ASYNC el metodo que estoy utilizando se va a utilizar de maera asincrona
+//AWAIT esto se va a demorar un poquito, espere mientras se termina la tarea
+
+
+//AXIOS Axios es una librería  JavaScript que puede ejecutarse en el navegador y que nos permite hacer sencillas las operaciones como cliente HTTP, por lo que podremos configurar y realizar solicitudes a un servidor y recibiremos respuestas fáciles de procesar
+
+//tree shaking termino usado en js,  limpia el codigo que no se usa. 
+
+
+ASINCRONIAA
+async function getData(){
+//Cconsulta a un API publico
+ await fetch('https://thesimpsonsquoteapi.glitch.me/quotes?count=num')
+//necesitamos dos callback, el primero para ka conversion de datos
+.then(response => response.json()) //funcion flecha: const hola= ()=> {}, un solo parametro no necesita parentesis, cuando voy a devolver  un valor no se ponen llaves y el entiende
+.then(data=> console.log(data))
+}
+
+getData()
+//REPASAR CODIGOOOOOOOOOOOOOOOOOOOOOOOOOOO PAR tener claro bby
